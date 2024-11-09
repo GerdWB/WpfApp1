@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
 using WpfApp1.ViewModels;
@@ -6,50 +7,59 @@ namespace WpfApp1.Views.Controls
 {
     public partial class TreeViewControl : UserControl
     {
-        public static readonly DependencyProperty DisplayPathProperty = 
-            DependencyProperty.Register(nameof(DisplayPath), typeof(object), typeof(TreeViewControl), new PropertyMetadata(default(object)));
-        public static readonly DependencyProperty ItemsPathProperty = 
-            DependencyProperty.Register(nameof(ItemsPath), typeof(object), typeof(TreeViewControl), new PropertyMetadata(default(object)));
-
-        public static readonly DependencyProperty SelectedItemProperty = 
-            DependencyProperty.Register(nameof(SelectedItem), typeof(ITreeItemVm), typeof(TreeViewControl), new PropertyMetadata(default(ITreeItemVm?)));
-
-        public static readonly DependencyProperty ItemsSourceProperty = 
-            DependencyProperty.Register(nameof(ItemsSource), typeof(List<ITreeItemVm>), typeof(TreeViewControl), new PropertyMetadata(default(List<ITreeItemVm>)));
-
-        public static readonly DependencyProperty TreeViewModelProperty =
-            DependencyProperty.Register(nameof(TreeViewModel), typeof(ITreeVm), 
+        public static readonly DependencyProperty ItemsSourceProperty =
+            DependencyProperty.Register(nameof(ItemsSource), typeof(IEnumerable), 
                 typeof(TreeViewControl), 
                 new PropertyMetadata(null));
 
-        public ITreeVm? TreeViewModel
-        {
-            get => (ITreeVm)GetValue(TreeViewModelProperty);
-            set => SetValue(TreeViewModelProperty, value);
-        }
+        public static readonly DependencyProperty SelectedItemProperty =
+            DependencyProperty.Register(nameof(SelectedItem), typeof(object), 
+                typeof(TreeViewControl), 
+                new PropertyMetadata(null));
 
-        public List<ITreeItemVm> ItemsSource
+        public static readonly DependencyProperty ItemsPathProperty =
+            DependencyProperty.Register(nameof(ItemsPath), typeof(string), 
+                typeof(TreeViewControl), 
+                new PropertyMetadata("Children"));
+
+        public static readonly DependencyProperty DisplayPathProperty =
+            DependencyProperty.Register(nameof(DisplayPath), typeof(string), 
+                typeof(TreeViewControl), 
+                new PropertyMetadata("Name"));
+
+        public static readonly DependencyProperty ItemContainerStyleProperty =
+            DependencyProperty.Register(nameof(ItemContainerStyle), typeof(Style), 
+                typeof(TreeViewControl), 
+                new PropertyMetadata(null));
+
+        public IEnumerable ItemsSource
         {
-            get => (List<ITreeItemVm>)GetValue(ItemsSourceProperty);
+            get => (IEnumerable)GetValue(ItemsSourceProperty);
             set => SetValue(ItemsSourceProperty, value);
         }
 
-        public ITreeItemVm? SelectedItem
+        public object SelectedItem
         {
-            get => (ITreeItemVm?)GetValue(SelectedItemProperty);
+            get => GetValue(SelectedItemProperty);
             set => SetValue(SelectedItemProperty, value);
         }
 
-        public object ItemsPath
+        public string ItemsPath
         {
-            get => (object)GetValue(ItemsPathProperty);
+            get => (string)GetValue(ItemsPathProperty);
             set => SetValue(ItemsPathProperty, value);
         }
 
-        public object DisplayPath
+        public string DisplayPath
         {
-            get => (object)GetValue(DisplayPathProperty);
+            get => (string)GetValue(DisplayPathProperty);
             set => SetValue(DisplayPathProperty, value);
+        }
+
+        public Style ItemContainerStyle
+        {
+            get => (Style)GetValue(ItemContainerStyleProperty);
+            set => SetValue(ItemContainerStyleProperty, value);
         }
 
         public TreeViewControl()

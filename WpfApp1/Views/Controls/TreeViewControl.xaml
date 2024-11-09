@@ -9,15 +9,17 @@
     <UserControl.Resources>
         <converters:TreeItemPropertyConverter x:Key="TreeItemPropertyConverter"/>
         <global:TreeItemChildrenConverter x:Key="TreeItemChildrenConverter"/>
+        
+        <!-- Default Style für TreeViewItems -->
+        <Style x:Key="DefaultTreeViewItemStyle" TargetType="TreeViewItem">
+            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+        </Style>
     </UserControl.Resources>
 
     <TreeView ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=UserControl}}">
         <b:Interaction.Behaviors>
-            <behaviors:TreeViewSelectedItemBehavior 
-                SelectedItem="{Binding SelectedItem, 
-                              Mode=TwoWay, 
-                              RelativeSource={RelativeSource AncestorType=UserControl}}"
-            />
+            <behaviors:TreeViewSelectedItemBehavior SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         </b:Interaction.Behaviors>
         <TreeView.ItemTemplate>
             <HierarchicalDataTemplate>
@@ -44,9 +46,14 @@
             </HierarchicalDataTemplate>
         </TreeView.ItemTemplate>
         <TreeView.ItemContainerStyle>
-            <Style TargetType="TreeViewItem">
-                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+            <Style TargetType="TreeViewItem" BasedOn="{StaticResource DefaultTreeViewItemStyle}">
+                <Style.Triggers>
+                    <!-- Optional: Default Visual States -->
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                    </Trigger>
+                </Style.Triggers>
             </Style>
         </TreeView.ItemContainerStyle>
     </TreeView>
