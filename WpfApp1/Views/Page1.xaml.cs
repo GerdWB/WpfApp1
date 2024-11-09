@@ -13,16 +13,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfApp1.Views
+namespace WpfApp1.Views;
+
+/// <summary>
+/// Interaction logic for Page1.xaml
+/// </summary>
+public partial class Page1 : Page
 {
-    /// <summary>
-    /// Interaction logic for Page1.xaml
-    /// </summary>
-    public partial class Page1 : Page
+    public Page1()
     {
-        public Page1()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

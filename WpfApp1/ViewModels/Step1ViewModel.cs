@@ -7,6 +7,7 @@ namespace WpfApp1.ViewModels;
 public partial class Step1ViewModel : StepBaseViewModel
 {
     private readonly NavigationService _navigationService;
+    private readonly ILoggingService _loggingService;
 
     private IObservable<bool> _canExecute;
     
@@ -18,25 +19,36 @@ public partial class Step1ViewModel : StepBaseViewModel
 
     public ReactiveCommand<Unit, Unit> NextCommand { get; }
 
-    public Step1ViewModel(NavigationService navigationService)
+    public Step1ViewModel(NavigationService navigationService, ILoggingService loggingService)
     {
         _navigationService = navigationService;
+        _loggingService = loggingService;
         
         Tree = new MyTreeVm();
 
-        // Add property change notifications for debugging
+        // Log property changes
         this.WhenAnyValue(x => x.Name)
-            .Subscribe(name => System.Diagnostics.Debug.WriteLine($"Name changed to: {name}"));
+            .Subscribe(name => 
+            {
+                _loggingService.LogUserAction($"Name updated to: {name}");
+                System.Diagnostics.Debug.WriteLine($"Name changed to: {name}");
+            });
 
         _canExecute = this.WhenAnyValue(
             x => x.Tree.SelectedItem,
-            selectedItem => selectedItem is { Children.Count: 0 }
+            selectedItem => 
+            {
+                var isValid = selectedItem is { Children.Count: 0 };
+                _loggingService.LogUserAction($"Selection validity changed: {isValid}");
+                return isValid;
+            }
         );
 
         NextCommand = ReactiveCommand.Create(
             () =>
             {
-                var step2 = new Step2ViewModel(_navigationService);
+                _loggingService.LogUserAction("Next button clicked");
+                var step2 = new Step2ViewModel(_navigationService, _loggingService);
                 _navigationService.NavigateTo(step2);
             }, 
             _canExecute);

@@ -19,10 +19,4 @@ public partial class MyTreeVm : ReactiveObject
 
         SelectItemCommand = ReactiveCommand.Create<MyTreeItemVm>(item => SelectedItem = item);
     }
-
-    public void RefreshSelectedItem()
-    {
-        // Notify that the selected item has been refreshed
-        this.RaisePropertyChanged(nameof(SelectedItem));
-    }
 }

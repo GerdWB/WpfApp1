@@ -3,9 +3,23 @@
 *.user
 *.suo
 *.cache
-*.dll.refresh
 *.pdb
-*.exe
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# NuGet
+packages/
+*.nupkg
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+[Bb]in/
+[Oo]bj/
 *.log
 *.vspscc
 *.vssscc
@@ -17,28 +31,34 @@
 *.testlog
 *.manifest
 
-# Build results
-[Dd]ebug/
-[Rr]elease/
-x64/
-x86/
-[Aa][Rr][Mm]/
-[Aa][Rr][Mm]64/
-[Bb]in/
-[Oo]bj/
-[Ll]og/
-
-# Visual Studio Code
+# IDE - Visual Studio Code
 .vscode/
+*.code-workspace
 
-# ReSharper
-_ReSharper*/
-*.[Rr]e[Ss]harper
-*.DotSettings.user
+# IDE - JetBrains Rider
+.idea/
+*.sln.iml
 
-# NuGet
-packages/
-*.nupkg
+# .NET Core
 project.lock.json
 project.fragment.lock.json
 artifacts/
+**/Properties/launchSettings.json
+
+# Test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.trx
+*.coverage
+*.coveragexml
+
+# Azure Functions
+local.settings.json
+bin/
+obj/
+
+# Misc
+.DS_Store
+Thumbs.db
+*.swp
+*.*~
