@@ -1,0 +1,60 @@
+<UserControl x:Class="WpfApp1.Views.Step1View"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:WpfApp1.Converters"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:WpfApp1.ViewModels"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:behaviors="clr-namespace:WpfApp1.Behaviors"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance viewModels:Step1ViewModel}">
+    
+    <UserControl.Resources>
+        <converters:NotEmptyConverter x:Key="NotEmptyConverter"/>
+    </UserControl.Resources>
+    
+    <Grid>
+        <StackPanel Margin="20">
+            <TextBlock Text="Step 1 - Personal Information" 
+                      FontSize="24" 
+                      Margin="0,0,0,20"/>
+
+            <!-- Input Fields -->
+            <TextBlock Text="Name:" Margin="0,5"/>
+            <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                     Margin="0,0,0,10"/>
+            
+            <!-- Debug Information -->
+            <TextBlock>
+                <Run Text="Name is filled: "/>
+                <Run Text="{Binding Name, Mode=OneWay, Converter={StaticResource NotEmptyConverter}}"/>
+            </TextBlock>
+
+            <TreeView ItemsSource="{Binding Tree.RootItems}">
+                <b:Interaction.Behaviors>
+                    <behaviors:TreeViewSelectedItemBehavior SelectedItem="{Binding Tree.SelectedItem, Mode=TwoWay}"/>
+                </b:Interaction.Behaviors>
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="TreeViewItem">
+                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    </Style>
+                </TreeView.ItemContainerStyle>
+            </TreeView>
+
+
+            <Button Content="Next Step" 
+                    Command="{Binding NextCommand}" 
+                    Style="{StaticResource NavigationButtonStyle}"/>
+        </StackPanel>
+    </Grid>
+</UserControl> 

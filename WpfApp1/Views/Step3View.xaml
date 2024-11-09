@@ -1,0 +1,49 @@
+<UserControl x:Class="WpfApp1.Views.Step3View"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converters="clr-namespace:WpfApp1.Converters"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <converters:NavigationConverter x:Key="NavigationConverter"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Main Content -->
+        <StackPanel Grid.Row="0" 
+                    Margin="20"
+                    VerticalAlignment="Top">
+            
+            <TextBlock Text="Step 3" 
+                      Style="{StaticResource HeaderStyle}"
+                      AutomationProperties.Name="Step 3 Header"/>
+                      
+            <TextBlock Text="This is the final step" 
+                      Style="{StaticResource SubheaderStyle}"
+                      AutomationProperties.Name="Step Description"/>
+        </StackPanel>
+
+        <!-- Navigation -->
+        <Button Grid.Row="1"
+                Content="Back" 
+                Margin="20,0,20,20"
+                Command="{Binding BackCommand}"
+                Style="{StaticResource NavigationButtonStyle}"
+                AutomationProperties.Name="Back to previous step">
+            <Button.CommandParameter>
+                <MultiBinding Converter="{StaticResource NavigationConverter}">
+                    <Binding Path="CurrentStep"/>
+                    <Binding Path="MaxSteps"/>
+                </MultiBinding>
+            </Button.CommandParameter>
+        </Button>
+    </Grid>
+</UserControl> 
