@@ -4,19 +4,26 @@ using ReactiveUI.SourceGenerators;
 
 namespace WpfApp1.ViewModels;
 
-public partial class MyTreeVm : ReactiveObject
+public interface ITreeVm
 {
-    public List<MyTreeItemVm> RootItems { get;  } = new();
+    List<ITreeItemVm> RootItems { get; }
+    ReactiveCommand<ITreeItemVm, Unit> SelectItemCommand { get; }
+    ITreeItemVm? SelectedItem { get; set; }
+}
 
-    public ReactiveCommand<MyTreeItemVm, Unit> SelectItemCommand { get; }
+public partial class MyTreeVm : ReactiveObject, ITreeVm
+{
+    public List<ITreeItemVm> RootItems { get;  } = new();
 
-    [Reactive] private MyTreeItemVm? _selectedItem;
+    public ReactiveCommand<ITreeItemVm, Unit> SelectItemCommand { get; }
+
+    [Reactive] private ITreeItemVm? _selectedItem;
 
     public MyTreeVm()
     {
-        var item = new MyTreeItemVm(null, 1,1);
+        var item = new TreeItemVm(null, 1,1);
         RootItems.Add(item);
 
-        SelectItemCommand = ReactiveCommand.Create<MyTreeItemVm>(item => SelectedItem = item);
+        SelectItemCommand = ReactiveCommand.Create<ITreeItemVm>(item => SelectedItem = item);
     }
 }

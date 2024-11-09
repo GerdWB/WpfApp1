@@ -3,20 +3,31 @@ using ReactiveUI.SourceGenerators;
 
 namespace WpfApp1.ViewModels;
 
-public partial class MyTreeItemVm : ReactiveObject
+public interface ITreeItemVm
+{
+    List<ITreeItemVm> Children { get; }
+    ITreeItemVm? Parent { get; }
+
+    string Name { get; }
+    Guid Id { get; }
+    bool IsExpanded { get; set; }
+    bool IsSelected { get; set; }
+}
+
+public partial class TreeItemVm : ReactiveObject, ITreeItemVm
 {
     [Reactive] public string _name;
     [Reactive] private Guid _id;
     [Reactive] private bool _isExpanded;
     [Reactive] private bool _isSelected;
 
-    public List<MyTreeItemVm> Children { get;  } = new();
+    public List<ITreeItemVm> Children { get;  } = new();
 
-    public MyTreeItemVm? Parent { get;  }
+    public ITreeItemVm? Parent { get;  }
 
     private int Level { get; }
     
-    public MyTreeItemVm(MyTreeItemVm? parent, int level, int pos)
+    public TreeItemVm(TreeItemVm? parent, int level, int pos)
     {
         Parent = parent;
         Id = Guid.NewGuid();
@@ -41,7 +52,7 @@ public partial class MyTreeItemVm : ReactiveObject
 
             for (int i = 0; i < childCount; i++)
             {
-                Children.Add(new MyTreeItemVm(this, level + 1, i+1));
+                Children.Add(new TreeItemVm(this, level + 1, i+1));
             }
         }
     }

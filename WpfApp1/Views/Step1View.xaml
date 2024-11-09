@@ -30,7 +30,11 @@
                 <Run Text="{Binding Name, Mode=OneWay, Converter={StaticResource NotEmptyConverter}}"/>
             </TextBlock>
 
-            <controls:TreeViewControl TreeViewModel="{Binding Tree}" />
+            <controls:TreeViewControl 
+                ItemsSource="{Binding Tree.RootItems}"
+                SelectedItem="{Binding Tree.SelectedItem, Mode=TwoWay}"
+                ItemsPath="Children"
+                DisplayPath="Name" />
 
             <Button Content="Next Step" 
                     Command="{Binding NextCommand}" 
