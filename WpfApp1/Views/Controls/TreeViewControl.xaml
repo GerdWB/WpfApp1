@@ -1,0 +1,24 @@
+<UserControl x:Class="WpfApp1.Views.Controls.TreeViewControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:behaviors="clr-namespace:WpfApp1.Behaviors">
+
+    <TreeView ItemsSource="{Binding TreeViewModel.RootItems, RelativeSource={RelativeSource AncestorType=UserControl}}">
+        <b:Interaction.Behaviors>
+            <behaviors:TreeViewSelectedItemBehavior SelectedItem="{Binding TreeViewModel.SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+        </b:Interaction.Behaviors>
+        <TreeView.ItemTemplate>
+            <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                <TextBlock Text="{Binding Name}" />
+            </HierarchicalDataTemplate>
+        </TreeView.ItemTemplate>
+        <TreeView.ItemContainerStyle>
+            <Style TargetType="TreeViewItem">
+                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+            </Style>
+        </TreeView.ItemContainerStyle>
+    </TreeView>
+
+</UserControl> 

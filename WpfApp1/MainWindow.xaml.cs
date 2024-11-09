@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using System.Reactive.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using ReactiveUI;
 using WpfApp1.Services;
 using WpfApp1.ViewModels;

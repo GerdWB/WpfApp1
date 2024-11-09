@@ -2,11 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:behaviors="clr-namespace:WpfApp1.Behaviors"
              xmlns:converters="clr-namespace:WpfApp1.Converters"
              xmlns:viewModels="clr-namespace:WpfApp1.ViewModels"
+             xmlns:controls="clr-namespace:WpfApp1.Views.Controls"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance viewModels:Step1ViewModel}">
     
@@ -31,25 +30,7 @@
                 <Run Text="{Binding Name, Mode=OneWay, Converter={StaticResource NotEmptyConverter}}"/>
             </TextBlock>
 
-            <TreeView ItemsSource="{Binding Tree.RootItems}">
-                <b:Interaction.Behaviors>
-                    <behaviors:TreeViewSelectedItemBehavior SelectedItem="{Binding Tree.SelectedItem, Mode=TwoWay}"/>
-                </b:Interaction.Behaviors>
-                <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Name}" />
-                        </StackPanel>
-                    </HierarchicalDataTemplate>
-                </TreeView.ItemTemplate>
-                <TreeView.ItemContainerStyle>
-                    <Style TargetType="TreeViewItem">
-                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                    </Style>
-                </TreeView.ItemContainerStyle>
-            </TreeView>
-
+            <controls:TreeViewControl TreeViewModel="{Binding Tree}" />
 
             <Button Content="Next Step" 
                     Command="{Binding NextCommand}" 
