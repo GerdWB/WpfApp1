@@ -24,17 +24,9 @@
             <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                      Margin="0,0,0,10"/>
             
-            <!-- Debug Information -->
-            <TextBlock>
-                <Run Text="Name is filled: "/>
-                <Run Text="{Binding Name, Mode=OneWay, Converter={StaticResource NotEmptyConverter}}"/>
-            </TextBlock>
-
             <controls:TreeViewControl 
                 ItemsSource="{Binding Tree.RootItems}"
-                SelectedItem="{Binding Tree.SelectedItem, Mode=TwoWay}"
-                ItemsPath="Children"
-                DisplayPath="Name" />
+                SelectedItem="{Binding Tree.SelectedItem, Mode=TwoWay}" />
 
             <Button Content="Next Step" 
                     Command="{Binding NextCommand}" 

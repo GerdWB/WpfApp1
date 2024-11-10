@@ -2,15 +2,9 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:behaviors="clr-namespace:WpfApp1.Behaviors"
-             xmlns:converters="clr-namespace:WpfApp1.Converters"
-             xmlns:global="clr-namespace:">
+             xmlns:behaviors="clr-namespace:WpfApp1.Behaviors">
 
     <UserControl.Resources>
-        <converters:TreeItemPropertyConverter x:Key="TreeItemPropertyConverter"/>
-        <global:TreeItemChildrenConverter x:Key="TreeItemChildrenConverter"/>
-        
-        <!-- Default Style für TreeViewItems -->
         <Style x:Key="DefaultTreeViewItemStyle" TargetType="TreeViewItem">
             <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
             <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
@@ -19,36 +13,21 @@
 
     <TreeView ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=UserControl}}">
         <b:Interaction.Behaviors>
-            <behaviors:TreeViewSelectedItemBehavior SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+            <behaviors:TreeViewSelectedItemBehavior 
+                SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"/>
         </b:Interaction.Behaviors>
+        
         <TreeView.ItemTemplate>
-            <HierarchicalDataTemplate>
-                <ContentControl Content="{Binding}">
-                    <ContentControl.ContentTemplate>
-                        <DataTemplate>
-                            <TextBlock>
-                                <TextBlock.Text>
-                                    <MultiBinding Converter="{StaticResource TreeItemPropertyConverter}">
-                                        <Binding Path="." />
-                                        <Binding Path="DisplayPath" RelativeSource="{RelativeSource AncestorType=UserControl}" />
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
-                        </DataTemplate>
-                    </ContentControl.ContentTemplate>
-                </ContentControl>
-                <HierarchicalDataTemplate.ItemsSource>
-                    <MultiBinding Converter="{StaticResource TreeItemChildrenConverter}">
-                        <Binding Path="." />
-                        <Binding Path="ItemsPath" RelativeSource="{RelativeSource AncestorType=UserControl}" />
-                    </MultiBinding>
-                </HierarchicalDataTemplate.ItemsSource>
+            <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                <TextBlock Text="{Binding Name}" />
             </HierarchicalDataTemplate>
         </TreeView.ItemTemplate>
+        
         <TreeView.ItemContainerStyle>
-            <Style TargetType="TreeViewItem" BasedOn="{StaticResource DefaultTreeViewItemStyle}">
+            <Style TargetType="TreeViewItem">
+                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                 <Style.Triggers>
-                    <!-- Optional: Default Visual States -->
                     <Trigger Property="IsSelected" Value="True">
                         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
                         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>

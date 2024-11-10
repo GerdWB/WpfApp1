@@ -31,7 +31,6 @@ public partial class Step1ViewModel : StepBaseViewModel
             .Subscribe(name => 
             {
                 _loggingService.LogUserAction($"Name updated to: {name}");
-                System.Diagnostics.Debug.WriteLine($"Name changed to: {name}");
             });
 
         _canExecute = this.WhenAnyValue(
